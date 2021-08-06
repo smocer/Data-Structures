@@ -1,10 +1,10 @@
 import XCTest
 
 public class StackTests: XCTestCase {
-    var stack: Stack!
+    var stack: Stack<Int>!
 
     public override func setUp() {
-        stack = Stack()
+        stack = Stack<Int>()
     }
 
     public func testStackCount() {

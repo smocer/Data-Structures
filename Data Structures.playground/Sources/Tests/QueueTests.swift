@@ -1,10 +1,10 @@
 import XCTest
 
 public class QueueTests: XCTestCase {
-    var queue: Queue!
+    var queue: Queue<Int>!
 
     public override func setUp() {
-        queue = Queue()
+        queue = Queue<Int>()
     }
 
     public func testQueueCount() {

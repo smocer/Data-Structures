@@ -1,17 +1,17 @@
-public final class Stack {
+public final class Stack<T> {
     public var count: Int { storage.count }
     public var isEmpty: Bool { storage.isEmpty }
-    public var top: Int? { storage.isEmpty ? nil : storage.last! }
+    public var top: T? { storage.isEmpty ? nil : storage.last! }
 
-    private var storage: [Int] = []
+    private var storage: [T] = []
 
     public init() {}
 
-    public func push(_ value: Int) {
+    public func push(_ value: T) {
         storage.append(value)
     }
 
-    public func pop() -> Int? {
+    public func pop() -> T? {
         guard storage.count > 0 else { return nil }
         return storage.removeLast()
     }

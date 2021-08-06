@@ -1,10 +1,10 @@
-public final class BinarySearchTree {
-    final class Node {
-        var value: Int
-        var left: Node?
-        var right: Node?
+public final class BinarySearchTree<T: Comparable> {
+    final class Node<T: Comparable> {
+        var value: T
+        var left: Node<T>?
+        var right: Node<T>?
 
-        init(_ value: Int, left: Node? = nil, right: Node? = nil) {
+        init(_ value: T, left: Node<T>? = nil, right: Node<T>? = nil) {
             self.value = value
             self.left = left
             self.right = right
@@ -32,15 +32,15 @@ public final class BinarySearchTree {
     public private(set) var count: Int = 0
     public var isEmpty: Bool { count == 0 }
 
-    private var root: Node?
+    private var root: Node<T>?
     private(set) var height: Int = 0 // doesnt work (not accounted when removing node)
 
     public init() {}
 
-    public func insert(_ value: Int) {
+    public func insert(_ value: T) {
         count += 1
 
-        if root == nil { return root = Node(value) }
+        if root == nil { return root = Node<T>(value) }
 
         var current = root
         height = 1
@@ -50,21 +50,21 @@ public final class BinarySearchTree {
                 if let left = current!.left {
                     current = left
                 } else {
-                    current!.left = Node(value)
+                    current!.left = Node<T>(value)
                     return
                 }
             } else {
                 if let right = current!.right {
                     current = right
                 } else {
-                    current!.right = Node(value)
+                    current!.right = Node<T>(value)
                     return
                 }
             }
         }
     }
 
-    public func search(_ value: Int) -> Int? {
+    public func search(_ value: T) -> T? {
         var current = root
         while let cur = current {
             if cur.value == value { return cur.value }
@@ -77,11 +77,11 @@ public final class BinarySearchTree {
         return nil
     }
 
-    public func remove(_ value: Int) {
+    public func remove(_ value: T) {
         guard root != nil else { return }
         count -= 1
 
-        var parent: Node? = nil
+        var parent: Node<T>? = nil
         var current = root
 
         while current != nil && current?.value != value {
@@ -121,14 +121,14 @@ public final class BinarySearchTree {
             toRemove.right!.left = toRemove.left
         } else {
             let minVal = findAndDeleteMin(toRemove.right!)
-            let replacementNode = Node(minVal)
+            let replacementNode = Node<T>(minVal)
             set(replacementNode, toParent: parent)
             replacementNode.left = toRemove.left
             replacementNode.right = toRemove.right
         }
     }
 
-    private func set(_ node: Node, toParent parent: Node?) {
+    private func set(_ node: Node<T>, toParent parent: Node<T>?) {
         guard let parent = parent else {
             return root = node
         }
@@ -140,7 +140,7 @@ public final class BinarySearchTree {
         }
     }
 
-    private func findAndDeleteMin(_ subtree: Node) -> Int {
+    private func findAndDeleteMin(_ subtree: Node<T>) -> T {
         var parent = subtree
         guard var current = parent.left else { fatalError("ti axyel") }
 
@@ -159,5 +159,76 @@ public final class BinarySearchTree {
         } else {
             print("nil")
         }
+    }
+
+    public func breadthFirstSearch() -> [T] {
+        guard let root = root else { return [] }
+
+        var list: [T] = []
+        let queue = Queue<Node<T>>()
+        queue.enqueue(root)
+
+        while let current = queue.dequeue() {
+            list.append(current.value)
+            current.left.map {
+                queue.enqueue($0)
+            }
+            current.right.map {
+                queue.enqueue($0)
+            }
+        }
+
+        return list
+    }
+
+    public func DFSInOrder() -> [T] {
+        traverseInOrder(node: root, list: [])
+    }
+
+    public func DFSPreOrder() -> [T] {
+        traversePreOrder(node: root, list: [])
+    }
+
+    public func DFSPostOrder() -> [T] {
+        traversePostOrder(node: root, list: [])
+    }
+
+    private func traverseInOrder(node: Node<T>?, list: [T]) -> [T] {
+        guard let node = node else { return list }
+        var list = list
+        if let left = node.left {
+            list = traverseInOrder(node: left, list: list)
+        }
+        list += [node.value]
+        if let right = node.right {
+            list = traverseInOrder(node: right, list: list)
+        }
+        return list
+    }
+
+    private func traversePreOrder(node: Node<T>?, list: [T]) -> [T] {
+        guard let node = node else { return list }
+        var list = list
+        list += [node.value]
+        if let left = node.left {
+            list = traversePreOrder(node: left, list: list)
+        }
+        if let right = node.right {
+            list = traversePreOrder(node: right, list: list)
+        }
+        return list
+    }
+
+    private func traversePostOrder(node: Node<T>?, list: [T]) -> [T] {
+        guard let node = node else { return list }
+        var list = list
+        if let left = node.left {
+            list = traversePostOrder(node: left, list: list)
+        }
+        if let right = node.right {
+            list = traversePostOrder(node: right, list: list)
+        }
+        list += [node.value]
+        return list
     }
 }

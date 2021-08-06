@@ -1,8 +1,8 @@
-public final class Graph {
+public final class Graph<T: Hashable & Comparable> { // Comparable for sorting keys for printing, consider removing
     public private(set) var numberOfVertices = 0
-    private var adjList: [Int: Set<Int>] = [:]
+    private var adjList: [T: Set<T>] = [:]
 
-    public func addEdge(from: Int, to: Int) {
+    public func addEdge(from: T, to: T) {
         guard
             from != to,
             adjList[from] != nil,
@@ -12,7 +12,7 @@ public final class Graph {
         adjList[from]!.insert(to)
     }
 
-    public func addVertex(_ vertex: Int) {
+    public func addVertex(_ vertex: T) {
         guard !adjList.keys.contains(vertex) else { return }
         adjList[vertex] = Set()
         numberOfVertices += 1
