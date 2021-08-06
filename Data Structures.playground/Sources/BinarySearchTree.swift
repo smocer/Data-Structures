@@ -29,9 +29,10 @@ public final class BinarySearchTree {
         }
     }
 
-    public var count: Int = 0
+    public private(set) var count: Int = 0
     public var isEmpty: Bool { count == 0 }
-    private(set) var root: Node?
+
+    private var root: Node?
     private(set) var height: Int = 0 // doesnt work (not accounted when removing node)
 
     public init() {}
@@ -63,7 +64,7 @@ public final class BinarySearchTree {
         }
     }
 
-    public func lookup(_ value: Int) -> Int? {
+    public func search(_ value: Int) -> Int? {
         var current = root
         while let cur = current {
             if cur.value == value { return cur.value }
@@ -152,7 +153,7 @@ public final class BinarySearchTree {
         return current.value
     }
 
-    func easyPrint() {
+    public func easyPrint() {
         if let root = root {
             root.printSubtree(1)
         } else {

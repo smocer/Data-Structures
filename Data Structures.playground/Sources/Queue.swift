@@ -1,5 +1,5 @@
 public final class Queue {
-    public final class Node {
+    private final class Node {
         var value: Int
         var next: Node?
 
@@ -14,6 +14,8 @@ public final class Queue {
 
     private var head: Node?
     private var tail: Node?
+
+    public init() {}
 
     public func enqueue(_ value: Int) {
         count += 1

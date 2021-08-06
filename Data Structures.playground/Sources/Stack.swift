@@ -5,6 +5,8 @@ public final class Stack {
 
     private var storage: [Int] = []
 
+    public init() {}
+
     public func push(_ value: Int) {
         storage.append(value)
     }
