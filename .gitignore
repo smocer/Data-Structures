@@ -1,3 +1,4 @@
 .DS_Store
-playground.xcworkspace/
-xcuserdata/egorbutyrin.xcuserdatad/xcschemes/
+xcuserdata/
+timeline.xctimeline
+playground.xcworkspace
